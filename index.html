@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar Playground — Initials &amp; Color Strategy</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Avatar Playground</h1>
+    <p class="subtitle">Initialen-avatar kleurstrategie explorer</p>
+  </header>
+
+  <main class="app-layout">
+    <!-- LEFT: Controls -->
+    <aside class="controls-panel">
+      <section class="control-group">
+        <h2>Naam invoer</h2>
+        <label for="name-input">Volledige naam</label>
+        <input type="text" id="name-input" placeholder="bijv. John Wayne" autocomplete="off">
+      </section>
+
+      <section class="control-group">
+        <h2>Kleurstrategie</h2>
+
+        <label class="toggle-label">
+          <input type="checkbox" id="toggle-fullname-color">
+          <span>Gebruik volledige naam als basis voor kleur</span>
+        </label>
+
+        <label class="toggle-label">
+          <input type="checkbox" id="toggle-limited-palette">
+          <span>Beperkt kleurenpalet (12 kleuren)</span>
+        </label>
+
+        <label class="toggle-label">
+          <input type="checkbox" id="toggle-dark-mode">
+          <span>Donkere modus</span>
+        </label>
+      </section>
+
+      <section class="control-group">
+        <h2>HSL Instellingen</h2>
+
+        <label for="slider-saturation">Saturation: <span id="val-saturation">65</span>%</label>
+        <input type="range" id="slider-saturation" min="20" max="100" value="65">
+
+        <label for="slider-lightness">Lightness: <span id="val-lightness">45</span>%</label>
+        <input type="range" id="slider-lightness" min="15" max="85" value="45">
+      </section>
+
+      <section class="control-group">
+        <h2>Typografie</h2>
+
+        <label for="slider-font-size">Lettergrootte: <span id="val-font-size">40</span>px</label>
+        <input type="range" id="slider-font-size" min="25" max="60" value="40">
+
+        <label for="slider-letter-spacing">Letterspacing: <span id="val-letter-spacing">0</span>px</label>
+        <input type="range" id="slider-letter-spacing" min="-2" max="6" value="0">
+
+        <label for="select-font-weight">Gewicht</label>
+        <select id="select-font-weight">
+          <option value="400">Regular (400)</option>
+          <option value="500">Medium (500)</option>
+          <option value="600" selected>Semibold (600)</option>
+          <option value="700">Bold (700)</option>
+        </select>
+      </section>
+
+      <section class="control-group">
+        <h2>Accessibility</h2>
+
+        <label for="select-contrast-level">Minimaal contrastniveau</label>
+        <select id="select-contrast-level">
+          <option value="4.5" selected>AA (4.5:1)</option>
+          <option value="7">AAA (7:1)</option>
+        </select>
+
+        <label class="toggle-label">
+          <input type="checkbox" id="toggle-force-aaa">
+          <span>Forceer AAA-compliance (pas kleur aan)</span>
+        </label>
+      </section>
+
+      <section class="control-group">
+        <h2>Dataset simulatie</h2>
+        <button id="btn-generate-dataset" class="btn btn-primary">Genereer 50 namen</button>
+        <button id="btn-clear-dataset" class="btn btn-secondary">Wis dataset</button>
+      </section>
+
+      <section class="control-group">
+        <h2>Exporteren</h2>
+        <button id="btn-export-tokens" class="btn btn-secondary">Exporteer als design tokens</button>
+      </section>
+    </aside>
+
+    <!-- RIGHT: Preview -->
+    <div class="preview-panel">
+      <!-- Single avatar preview -->
+      <section class="single-preview">
+        <h2>Avatar Preview</h2>
+        <div class="single-preview-content">
+          <div class="avatar-large-container">
+            <div class="avatar avatar-large" id="avatar-preview">
+              <span class="avatar-initials" id="avatar-initials">?</span>
+            </div>
+          </div>
+          <div class="avatar-meta" id="avatar-meta">
+            <div class="meta-row">
+              <span class="meta-label">Initialen</span>
+              <span class="meta-value" id="meta-initials">—</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">HEX</span>
+              <span class="meta-value" id="meta-hex">—</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">HSL</span>
+              <span class="meta-value" id="meta-hsl">—</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Tekstkleur</span>
+              <span class="meta-value" id="meta-text-color">—</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Contrast ratio</span>
+              <span class="meta-value" id="meta-contrast">—</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">WCAG niveau</span>
+              <span class="meta-value" id="meta-wcag">—</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grid preview -->
+      <section class="grid-preview">
+        <h2>Grid Preview <span class="grid-count" id="grid-count"></span></h2>
+        <div class="avatar-grid" id="avatar-grid"></div>
+      </section>
+
+      <!-- Color distribution -->
+      <section class="distribution-section">
+        <h2>Kleurdistributie</h2>
+        <div class="hue-wheel-container">
+          <canvas id="hue-wheel" width="300" height="300"></canvas>
+        </div>
+        <div id="distribution-warnings" class="distribution-warnings"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Tooltip for grid hover -->
+  <div class="grid-tooltip" id="grid-tooltip"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
