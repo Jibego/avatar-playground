@@ -34,6 +34,8 @@
   const metaWcag = $('#meta-wcag');
   const gridEl = $('#avatar-grid');
   const gridCount = $('#grid-count');
+  const listEl = $('#avatar-list');
+  const listCount = $('#list-count');
   const tooltip = $('#grid-tooltip');
   const hueCanvas = $('#hue-wheel');
   const distWarnings = $('#distribution-warnings');
@@ -313,6 +315,37 @@
     renderDistribution(names);
   }
 
+  // ── Render list ───────────────────────────────────
+  function renderList() {
+    listEl.innerHTML = '';
+    const names = state.dataset;
+    listCount.textContent = names.length > 0 ? `(${names.length})` : '';
+
+    names.forEach((name) => {
+      const av = computeAvatar(name);
+
+      let badgeClass = 'pass';
+      let badgeLabel = av.wcag.label;
+      if (av.contrastRatio < 3) badgeClass = 'fail';
+      else if (av.contrastRatio < state.contrastLevel) badgeClass = 'warn';
+
+      const item = document.createElement('div');
+      item.className = 'avatar-list-item';
+      item.innerHTML = `
+        <div class="avatar avatar-list-avatar" style="background-color:${av.hex}">
+          <span class="avatar-initials" style="color:${av.textColor};font-size:${Math.round(state.fontSize * 0.3)}px;letter-spacing:${state.letterSpacing}px;font-weight:${state.fontWeight}">${av.initials}</span>
+        </div>
+        <div class="avatar-list-info">
+          <div class="avatar-list-name">${escapeHtml(name)}</div>
+          <div class="avatar-list-detail">${av.hex.toUpperCase()} · ${av.contrastRatio.toFixed(2)}:1</div>
+        </div>
+        <span class="avatar-list-badge ${badgeClass}">${badgeLabel}</span>
+      `;
+
+      listEl.appendChild(item);
+    });
+  }
+
   function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = str;
@@ -553,6 +586,7 @@
   function render() {
     renderSinglePreview();
     renderGrid();
+    renderList();
   }
 
   // ── Event bindings ────────────────────────────────
